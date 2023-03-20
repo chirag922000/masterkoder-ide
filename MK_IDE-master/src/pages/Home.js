@@ -13,7 +13,7 @@ import "./home.css"
 
 
 
-function Home( {match}) {
+function Home( ) {
   
  
   const [htmlCode, setHtmlCode] = useState(""); 

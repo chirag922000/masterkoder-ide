@@ -23,14 +23,6 @@ InitiateMongoServer();
 // PORT
 const PORT = 4000;
 
-app.get("/", (req, res) => {
-  res.json({ message: "API Working" });
-});
-
- 
-
- 
-
 
 app.post("/register", async (req, res) => {
   try {
@@ -64,7 +56,7 @@ app.post("/login", async (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         const token = jwt.sign({ id:user._id }, jwtkey, { expiresIn: "2h" });
-        console.log(token)
+         
         res.cookie("jwt", token,{
           httpOnly: true,
            
@@ -94,16 +86,28 @@ app.post("/login", async (req, res) => {
 app.post('/save', verifyToken, async (req, res) => {
   const { name, html, css, js } = req.body; 
   const userID=req.id
-  console.log(userID,"this one is userID")
+   
   try {
     const user = await User.findOne({ _id :userID});
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    const project = { name, html, css, js };
-    user.projects.push(project);
+    // const project = { name, html, css, js };
+    // user.projects.push(project);
+    // await user.save();
+    const projectIndex = user.projects.findIndex(proj => proj.name === name);
+    if (projectIndex === -1) { // project doesn't exist yet
+      const project = { name, html, css, js };
+      user.projects.push(project);
+    } else { // project already exists, so update it
+      user.projects[projectIndex].html = html;
+      user.projects[projectIndex].css = css;
+      user.projects[projectIndex].js = js;
+    }
     await user.save();
-    
+
+
+
     res.status(200).json({ message: 'Project saved successfully' });
   } catch (error) {
     console.error(error);
@@ -149,10 +153,12 @@ app.get('/fiddles/:id', verifyToken, async (req, res) => {
   }
 });
  
+ 
 
 
 function verifyToken(req, res, next) {
   const cookies = req.headers.cookie;
+ 
   if (!cookies) {
     return res.status(401).json({ message: "No cookie found" });
   }
@@ -165,7 +171,7 @@ jwt.verify(String(token),jwtkey,(err,user)=>{
   if(err){
     return res.json({massage:"invalid token"})
   }
-  console.log(user.id)
+   
   req.id=user.id
 })
 next()
