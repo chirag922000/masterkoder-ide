@@ -137,7 +137,7 @@ app.get('/projects',verifyToken, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
- 
+
 
 app.get('/fiddles/:id', verifyToken, async (req, res) => {
   try {
@@ -155,6 +155,49 @@ app.get('/fiddles/:id', verifyToken, async (req, res) => {
  
  
 
+app.delete('/projects/:id', verifyToken, async (req, res) => {
+  try {
+    const userId =  req.id
+    const projectId = req.params.id;
+    const user = await User.findByIdAndUpdate(userId, { $pull: { projects: { _id: projectId } } }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log("deleted")
+    res.send(user) 
+    
+ 
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+// to check that user is logged in or not
+app.get("/check-cookie",(req,res)=>{
+  const cookies = req.headers.cookie;
+  
+  
+ 
+  if (!cookies) {
+    return res.status(401).json({ message: "No cookie found" });
+  }
+  const token = cookies.split("=")[1];
+  if (!token) {
+    return res.status(401).json({ message: "No token found" });
+  }
+
+  jwt.verify(String(token),jwtkey,(err,user)=>{
+    if(err){
+      return res.json({massage:"invalid token"})
+    }
+  
+  })
+  res.status(200).send({massage:"valid user"})
+
+}) 
 
 function verifyToken(req, res, next) {
   const cookies = req.headers.cookie;

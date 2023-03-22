@@ -1,20 +1,22 @@
-import React  from 'react'
-import {Link, NavLink,useNavigate} from 'react-router-dom'
+import React   from 'react'
+import {Link, NavLink } from 'react-router-dom'
 
 function Navbar() {
-  const navigate=useNavigate()
-  const auth=localStorage.getItem("token")
-   
-  const logout=()=>{
-    localStorage.clear()
-    navigate("/login")
+  
+  
+
+   const auth=localStorage.getItem("auth")
+
+   const Logout=()=>{
+    localStorage.clear();
+   }
     
-  }
+  
 
   return (
 <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
   <div className="container flex flex-wrap justify-between items-center mx-auto">
-    <Link to="/" className="flex items-center">
+    <Link   className="flex items-center">
         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">MASTERKODER</span>
     </Link>
     <button data-collapse-toggle="mobile-menu" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu" aria-expanded="false">
@@ -27,24 +29,29 @@ function Navbar() {
         <li>
           <NavLink to="/" className="block py-2 pr-4 pl-3  bg-blue-700 rounded md:bg-transparent text-black md:p-0 dark:text-white" aria-current="page">Code</NavLink>
         </li>
-        {
-           auth ?(
-          <li>
-          <NavLink  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={logout} >Logout</NavLink>
+          {
+            auth?(
+              
+         <li>
+         <NavLink  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={Logout}  >Logout</NavLink>
+       </li>
+            ):(
+              
+              <li>
+              <NavLink to="/login"  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Login</NavLink>
+            </li>
+            )
+          }
+        
+          {/* <li>
+          <NavLink  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"   >Logout</NavLink>
         </li>
-        
-        ):
-        (
-        <li>
-          <NavLink to="/login"  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Login</NavLink>
-        </li>
-        )
-        }
+         */}
+         
         
         
-        <li>
-        <NavLink to="/register" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Register</NavLink>
-      </li>
+        
+       
         <li>
           <NavLink to="/fiddles" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</NavLink>
         </li>
