@@ -1,5 +1,5 @@
  
-import { useParams ,useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-html";
@@ -21,7 +21,7 @@ function Home( ) {
   const [jsCode, setJsCode] = useState("");
   const [projectName, setProjectName] = useState("");
   const { id } = useParams();
-  const navigate = useNavigate();
+ 
 
   useEffect(( )=>{
   //  verifyUser()

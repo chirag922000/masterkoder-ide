@@ -51,7 +51,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     let user = await User.findOne({ email });
-    // console.log(user)
+    console.log(user)
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
@@ -176,28 +176,11 @@ app.delete('/projects/:id', verifyToken, async (req, res) => {
 
 
 // to check that user is logged in or not
-app.get("/check-cookie",(req,res)=>{
-  const cookies = req.headers.cookie;
-  
-  
- 
-  if (!cookies) {
-    return res.status(401).json({ message: "No cookie found" });
-  }
-  const token = cookies.split("=")[1];
-  if (!token) {
-    return res.status(401).json({ message: "No token found" });
-  }
-
-  jwt.verify(String(token),jwtkey,(err,user)=>{
-    if(err){
-      return res.json({massage:"invalid token"})
-    }
-  
-  })
-  res.status(200).send({massage:"valid user"})
-
+app.get("/verifyuser",verifyToken,(req,res)=>{
+  res.json({ message: 'This is a protected endpoint.' });
 }) 
+
+ 
 
 function verifyToken(req, res, next) {
   const cookies = req.headers.cookie;
@@ -222,7 +205,7 @@ next()
    
 }
 
- 
+
 
 app.listen(PORT, (req, res) => {
   console.log(` Started at PORT ${PORT}`);

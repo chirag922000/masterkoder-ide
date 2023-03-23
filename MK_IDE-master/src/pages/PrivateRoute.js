@@ -1,27 +1,78 @@
-import React, { useEffect }   from "react";
-import { useNavigate } from "react-router-dom";
-// import { Route, Navigate } from "react-router-dom";
+import React, { useEffect, useState ,} from 'react';
+import { Outlet ,useNavigate} from 'react-router-dom';
 
-function PrivateRoute (props)  {
-  const {Component}= props
+const PrivateRoute = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [userFound, setUserFound] = useState(false);
   const navigate = useNavigate();
- 
-  useEffect(()=>{
-    const token=localStorage.getItem("auth")
-    if(!token){
-      navigate("/login")
-    }
-  })
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const result = await fetch('/verifyuser', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
- 
-  
-  return (
-    
-  <div>
-   
-    <Component/>
-  </div>
-  );
+        if (result.ok) {
+          setUserFound(true);
+        } else {
+          setUserFound(false);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    verifyUser();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (userFound) {
+    return <Outlet />;
+  }
+
+  return navigate("/login");
 };
 
 export default PrivateRoute;
+
+
+
+// import React,{useEffect} from 'react';
+// import { Outlet  } from 'react-router-dom';
+ 
+// const PrivateRoute = ( ) => {
+  
+//   const verifyUser=async()=>{
+//     try{
+//       const result=await fetch('/verifyuser', {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//     })
+//       if(result.ok){
+//         return <Outlet/>
+//       }else{
+//         return "no user found "
+//       }
+//      }catch(error){
+//       console.log(error)
+//     }
+//   }
+//  verifyUser()
+// }
+ 
+  
+ 
+    
+ 
+
+// export default PrivateRoute;

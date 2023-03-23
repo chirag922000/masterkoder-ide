@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import "./fiddles.css"
 
 function Fiddles () {
   const [projects, setProjects] = useState([]);
- const navigate=useNavigate()
+//  const navigate=useNavigate()
  useEffect(() => {
   getProducts();
   }, []);
@@ -94,7 +94,7 @@ function Fiddles () {
       </p>
       <h2 className="card__title">{project.name}</h2>
       <p className="card__apply">
-        <a className="card__link" href={`/fiddles/${project._id}`} key={project._id}>Start coding <i className="fas fa-arrow-right"></i></a>
+        <a className="card__link" href={`fiddles/${project._id}`} key={project._id}>Start coding <i className="fas fa-arrow-right"></i></a>
       </p>
     </div>
     
