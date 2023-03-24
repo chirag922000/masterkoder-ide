@@ -6,6 +6,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("./modal/User");
+const DeveloperProjects=require("./modal/DeveloperProjects")
 const jwtkey = "e-commerce";
 const app = express();
 //  app.use(cors())
@@ -80,41 +81,83 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
- 
-
-app.post('/save', verifyToken, async (req, res) => {
-  const { name, html, css, js } = req.body; 
+// to save users and developer's projetcs
+app.post("/save",verifyToken,async(req,res)=>{
+  const { name, html, css, js } = req.body;
   const userID=req.id
-   
-  try {
-    const user = await User.findOne({ _id :userID});
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+  const user = await User.findOne({ _id :userID});
+  try{
+    if(user.role===0){
+      const projectIndex = user.projects.findIndex(proj => proj.name === name);
+          if (projectIndex === -1) { 
+            // project doesn't exist yet
+            const project = { name, html, css, js };
+            user.projects.push(project);
+          } else {
+             // project already exists, so update it
+            user.projects[projectIndex].html = html;
+            user.projects[projectIndex].css = css;
+            user.projects[projectIndex].js = js;
+          }
+          await user.save();
+           res.status(200).json({ message: 'Project saved successfully' });
+
+    }else if(user.role===1){
+      let project = await DeveloperProjects.findOne({ name });
+      if (project) {
+        project.html = html;
+        project.css = css;
+        project.js = js;
+      }else {
+        project = new DeveloperProjects({ name, html, css, js });
+      }
+      await project.save();
+     res.status(200).json({ message: 'Project saved successfully' });
     }
-    // const project = { name, html, css, js };
-    // user.projects.push(project);
-    // await user.save();
-    const projectIndex = user.projects.findIndex(proj => proj.name === name);
-    if (projectIndex === -1) { // project doesn't exist yet
-      const project = { name, html, css, js };
-      user.projects.push(project);
-    } else { // project already exists, so update it
-      user.projects[projectIndex].html = html;
-      user.projects[projectIndex].css = css;
-      user.projects[projectIndex].js = js;
-    }
-    await user.save();
-
-
-
-    res.status(200).json({ message: 'Project saved successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+}catch(error){
+    console.log(error)
   }
-}); 
 
+})
+
+
+// app.post('/save', verifyToken, async (req, res) => {
+//   const { name, html, css, js } = req.body; 
+//   const userID=req.id
+   
+//   try {
+//     const user = await User.findOne({ _id :userID});
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+   
+//     const projectIndex = user.projects.findIndex(proj => proj.name === name);
+//     if (projectIndex === -1) { 
+//       // project doesn't exist yet
+//       const project = { name, html, css, js };
+//       user.projects.push(project);
+//     } else {
+//        // project already exists, so update it
+//       user.projects[projectIndex].html = html;
+//       user.projects[projectIndex].css = css;
+//       user.projects[projectIndex].js = js;
+//     }
+//     await user.save();
+//      res.status(200).json({ message: 'Project saved successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// }); 
+
+app.get('/developersprojects', async (req, res) => {
+  try {
+    const projects = await DeveloperProjects.find();
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 
@@ -174,13 +217,38 @@ app.delete('/projects/:id', verifyToken, async (req, res) => {
 });
 
 
+// is admin api is to check that who have logged in is admin or not
+const isAdmin = async (req, res, next) => {
+  try {
+    const userId =  req.id
+    const user = await User.findOne({ _id:userId });
+    if (user.role !== 1) {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in admin middelware",
+    });
+  }
+};
+
 
 // to check that user is logged in or not
 app.get("/verifyuser",verifyToken,(req,res)=>{
   res.json({ message: 'This is a protected endpoint.' });
 }) 
-
- 
+// // to check that Admin is logged in or not
+app.get("/verifyadmin",verifyToken,isAdmin,(req,res)=>{
+  res.json({ message: 'This is a protected endpoint.' });
+}) 
 
 function verifyToken(req, res, next) {
   const cookies = req.headers.cookie;
@@ -204,6 +272,7 @@ next()
   
    
 }
+
 
 
 

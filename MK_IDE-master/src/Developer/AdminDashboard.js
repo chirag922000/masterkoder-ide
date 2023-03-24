@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import "./fiddles.css"
+import React,{ useState, useEffect } from 'react'
 
-function Fiddles () {
+function AdminDashboard() {
   const [projects, setProjects] = useState([]);
-//  const navigate=useNavigate()
- useEffect(() => {
-  getProducts();
-  }, []);
 
+  useEffect(() => {
+    getProducts();
+    }, []);
 
-  
+    
   const getProducts = async () => {
     
     try {
-      const result = await fetch(" /projects", {
+      const result = await fetch(" /developersprojects", {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -35,33 +32,10 @@ function Fiddles () {
      
     }
   };
-  
-  
 
 
-  const deleteProject = async (project_id ) => {
-    try {
-      const result = await fetch(`/projects/${project_id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (result.ok) {
-        console.log("ok")
-        // const updatedProjects = projects.filter(project => project._id !== project_id);
-        // setProjects(updatedProjects);
-        getProducts();
-      } else {
-        throw new Error('Delete failed with status ' + result.status);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
- return (<>
+  return (
+    <>
    {
    
   <div className="main-container">
@@ -71,7 +45,7 @@ function Fiddles () {
       <div className="card__icon"><i className="fas fa-bolt" ></i></div>
       {/* <p className="card__exit"><i className="fas fa-times" ></i>delete</p>   */}
       <p className="card__apply">
-        <button className="card__link"  onClick={() => deleteProject(project._id)} key={project._id}>Delete <i className="fas fa-arrow-right"></i></button>
+        <button className="card__link"   >Delete <i className="fas fa-arrow-right"></i></button>
       </p>
       <h2 className="card__title">{project.name}</h2>
       <p className="card__apply">
@@ -85,9 +59,7 @@ function Fiddles () {
   }
 
   </>
-   
-   );
-};
+  )
+}
 
-export default Fiddles;
- 
+export default AdminDashboard

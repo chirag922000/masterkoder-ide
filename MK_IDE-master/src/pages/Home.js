@@ -79,7 +79,9 @@ function Home( ) {
       });
     
       const data = await response.json();
-       
+       if(response.ok){
+        alert("project saved")
+       }
      return data
     } catch (error) {
       console.log(error);
