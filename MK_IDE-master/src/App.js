@@ -8,7 +8,7 @@ import Fiddles from "./pages/Fiddles";
 import PrivateRoute from "./pages/PrivateRoute";
 import Error from "./pages/Error";
 import AdminRoute from "./Developer/AdminRoute"
- import AdminDashboard from "./Developer/AdminDashboard";
+ import AdminDashboard from "./Developer/DeveloperDashboard";
 
 function App() {
  
@@ -17,18 +17,18 @@ function App() {
     
       <Navbar />
       <Routes>
-      <Route> <Route  path="/login" element={<Login />} /></Route>
+      <Route> <Route  path="/" element={<Login />} /></Route>
      
      {/* user Routes */}
-      <Route path="/user" element={<PrivateRoute/>}>
+      <Route path="/dashboard" element={<PrivateRoute/>}>
         <Route path="home" element={<   Home  />} />
         <Route path="fiddles" element={<  Fiddles    />} />
        <Route path="fiddles/:id" element={ < Home  />}  />
       </Route>
 
     {/* Admin Routes */}
-      <Route path="/admin" element={<AdminRoute/>}>
-         <Route path="dashboard" element={<AdminDashboard/>}/>
+      <Route path="/dashboard" element={<AdminRoute/>}>
+         <Route path="developer" element={<AdminDashboard/>}/>
 
       </Route>
 

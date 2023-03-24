@@ -22,6 +22,7 @@ function Fiddles () {
      });
       if (result) {
         const data = await result.json();
+        
         console.log(data)
         setProjects(data);
       } else {

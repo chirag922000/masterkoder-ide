@@ -150,7 +150,7 @@ app.post("/save",verifyToken,async(req,res)=>{
 //   }
 // }); 
 
-app.get('/developersprojects', async (req, res) => {
+app.get('/developersprojects',verifyToken, async (req, res) => {
   try {
     const projects = await DeveloperProjects.find();
     res.status(200).json(projects);
@@ -186,8 +186,16 @@ app.get('/fiddles/:id', verifyToken, async (req, res) => {
   try {
     const userId =  req.id
     const user = await User.findOne({ _id:userId });
+    if(user.role===0){
     const projects=await user.projects
     res.send(projects)
+    }else if(user.role===1){
+      const projects = await DeveloperProjects.find();
+      console.log(projects)
+      res.send(projects)
+
+    }
+    
     
  
   } catch (err) {
@@ -202,13 +210,18 @@ app.delete('/projects/:id', verifyToken, async (req, res) => {
   try {
     const userId =  req.id
     const projectId = req.params.id;
+    const user = await User.findOne({ _id:userId });
+    if(user.role===0){
     const user = await User.findByIdAndUpdate(userId, { $pull: { projects: { _id: projectId } } }, { new: true });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     console.log("deleted")
     res.send(user) 
-    
+  }else if(user.role===1){
+    const user = await DeveloperProjects.findByIdAndDelete(projectId);
+    res.send(user)
+  }
  
   } catch (err) {
     console.error(err.message);
