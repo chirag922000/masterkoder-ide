@@ -121,34 +121,6 @@ app.post("/save",verifyToken,async(req,res)=>{
 })
 
 
-// app.post('/save', verifyToken, async (req, res) => {
-//   const { name, html, css, js } = req.body; 
-//   const userID=req.id
-   
-//   try {
-//     const user = await User.findOne({ _id :userID});
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-   
-//     const projectIndex = user.projects.findIndex(proj => proj.name === name);
-//     if (projectIndex === -1) { 
-//       // project doesn't exist yet
-//       const project = { name, html, css, js };
-//       user.projects.push(project);
-//     } else {
-//        // project already exists, so update it
-//       user.projects[projectIndex].html = html;
-//       user.projects[projectIndex].css = css;
-//       user.projects[projectIndex].js = js;
-//     }
-//     await user.save();
-//      res.status(200).json({ message: 'Project saved successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// }); 
 
 app.get('/developersprojects',verifyToken, async (req, res) => {
   try {
@@ -180,19 +152,51 @@ app.get('/projects',verifyToken, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+// to fetch all projects
+app.get('/allprojects',verifyToken, async (req, res) => {
+  try {
+    
+    
+    const projects = await DeveloperProjects.find();
+    
+    if (!projects) {
+      return res.status(404).send('no projects found');
+      
+    }
+    res.send(projects);
+    // console.log(user.projects)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
 
-
+//************************************************************** */
 app.get('/fiddles/:id', verifyToken, async (req, res) => {
   try {
     const userId =  req.id
     const user = await User.findOne({ _id:userId });
     if(user.role===0){
     const projects=await user.projects
-    res.send(projects)
+    const allprojects = await DeveloperProjects.find();
+
+    const responseData = {
+      projects: projects,
+      allprojects: allprojects
+    };
+
+    res.send(responseData)
+     
+     
     }else if(user.role===1){
-      const projects = await DeveloperProjects.find();
+      const allprojects = await DeveloperProjects.find();
+      const projects=await user.projects
+      const responseData = {
+        projects: projects,
+        allprojects: allprojects
+      };
       console.log(projects)
-      res.send(projects)
+      res.send(responseData)
 
     }
     

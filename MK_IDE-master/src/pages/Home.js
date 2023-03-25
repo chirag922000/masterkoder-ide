@@ -39,13 +39,25 @@ function Home( ) {
              
         });
         result = await result.json();
+      
+        console.log(result)
+          
+        const project = result.projects.find(p => p._id.toString() === id);
+        if(!project){
+          const allprojects= result.allprojects.find(p => p._id.toString() === id);
+          setHtmlCode(allprojects.html)
+        setCssCode(allprojects.css)
+        setJsCode(allprojects.js)
+        setProjectName(allprojects.name)
+        }else{
+
+          setHtmlCode(project.html)
+          setCssCode(project.css)
+          setJsCode(project.js)
+          setProjectName(project.name)
+        }
          
-        const project = result.find(p => p._id.toString() === id);
-         
-        setHtmlCode(project.html)
-        setCssCode(project.css)
-        setJsCode(project.js)
-        setProjectName(project.name)
+       
       }catch (error) {
           console.log(error);
         }

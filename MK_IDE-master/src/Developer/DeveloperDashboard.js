@@ -1,4 +1,5 @@
 import React,{ useState, useEffect } from 'react'
+import "../pages/fiddles.css"
 
 function AdminDashboard() {
   const [projects, setProjects] = useState([]);
@@ -56,29 +57,22 @@ function AdminDashboard() {
 
   return (
     <>
-   {
-   
-  <div className="main-container">
-   {projects.map((project,index)=>(
-   <div className="cards">
-    <div className="card card-1">
-      <div className="card__icon"><i className="fas fa-bolt" ></i></div>
-      {/* <p className="card__exit"><i className="fas fa-times" ></i>delete</p>   */}
-      <p className="card__apply">
-        <button className="card__link"  onClick={() => deleteProject(project._id)} key={project._id} >Delete <i className="fas fa-arrow-right"></i></button>
-      </p>
-      <h2 className="card__title">{project.name}</h2>
-      <p className="card__apply">
-        <a className="card__link" href={`fiddles/${project._id}`} key={project._id}>Start coding <i className="fas fa-arrow-right"></i></a>
-      </p>
-    </div>
-    
-  </div>))}
-  
-</div>
-  }
-
-  </>
+      {
+        <div className="row">
+          {projects.map((project, index) => (
+            <div className="column" key={`all-project-${index}`}>
+              <div className="card">
+                <h3>{project.name}</h3>
+               <a href={`fiddles/${project._id}`} key={`start-coding-all-${index}`}><p>Start Coding</p></a> 
+                <button onClick={() => deleteProject(project._id)} key={`delete-project-${index}`}><p>Delete</p></button>
+                
+              </div>
+            </div>
+           
+          ))}
+        </div>
+      }
+    </>
   )
 }
 
