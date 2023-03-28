@@ -23,9 +23,11 @@ function Login( ) {
 
       })
       result=await result.json()
-      localStorage.setItem("auth", JSON.stringify(result.token));
-      console.log(result)
+       
+     if(result){
        navigate("/dashboard/fiddles")
+    }
+      
       }catch(error){
         console.log(error)
       }

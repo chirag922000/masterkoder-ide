@@ -43,10 +43,11 @@ function AdminDashboard() {
       });
 
       if (result.ok) {
-        console.log("ok")
+        
         // const updatedProjects = projects.filter(project => project._id !== project_id);
         // setProjects(updatedProjects);
         getProducts();
+        alert("project Deleted")
       } else {
         throw new Error('Delete failed with status ' + result.status);
       }

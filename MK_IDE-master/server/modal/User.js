@@ -21,6 +21,13 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    school:{
+        type:String,
+    },
+    std:{
+        type:String,
+    },
+
     createdAt:{
         type:Date,
         default:Date.now()
@@ -28,6 +35,7 @@ const userSchema = mongoose.Schema({
     role: {
         type: Number,
         default: 0,
+        required:true
       },
     projects: [projectSchema]
 })

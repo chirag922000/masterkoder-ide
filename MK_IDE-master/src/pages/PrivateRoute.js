@@ -1,5 +1,6 @@
 import React, { useEffect, useState ,} from 'react';
 import { Outlet ,useNavigate} from 'react-router-dom';
+import PreLoader from './PreLoader';
 
 const PrivateRoute = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +32,7 @@ const PrivateRoute = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <PreLoader/>;
   }
 
   if (userFound) {

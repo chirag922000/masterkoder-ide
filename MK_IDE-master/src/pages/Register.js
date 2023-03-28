@@ -6,6 +6,8 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
+  const [school,setSchool]=useState("")
+  const [std,setStd]=useState("")
 
   const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ function Register() {
     try {
       let result = await fetch("http://localhost:4000/register", {
         method:"POST",
-        body: JSON.stringify({ username: userName, email, password }),
+        body: JSON.stringify({ username: userName, email, password,school,std }),
         headers: {
           "Content-type": "application/json",
         },
@@ -30,9 +32,8 @@ function Register() {
       if (result) {
         result = await result.json();
         console.log(result);
-        localStorage.setItem("user", JSON.stringify(result.result));
-        localStorage.setItem("token", JSON.stringify(result.auth));
-        navigate("/login");
+       
+        navigate("/");
       } else {
         throw new Error("Network response was not ok");
       }
@@ -72,6 +73,24 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             type="text"
             placeholder="Enter Your Password"
+            className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
+          />
+        </div>
+        <div className="flex flex-col ">
+          <label className="text-xl ">School Name:</label>
+          <input
+            onChange={(e) => setSchool(e.target.value)}
+            type="text"
+            placeholder="Enter Your School name"
+            className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
+          />
+        </div>
+        <div className="flex flex-col ">
+          <label className="text-xl ">Std</label>
+          <input
+            onChange={(e) => setStd(e.target.value)}
+            type="text"
+            placeholder="Std"
             className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
           />
         </div>

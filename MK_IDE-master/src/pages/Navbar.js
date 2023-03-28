@@ -1,14 +1,20 @@
-import React   from 'react'
-import {Link, NavLink } from 'react-router-dom'
+import React, { useState }   from 'react'
+import {Link, NavLink ,useNavigate} from 'react-router-dom'
 function Navbar() {
-  
+  const [isAuthenticated,setIsAuthenticated]=useState(true)
+  const navigate = useNavigate();
+
   
 
-  const isAuthenticated = localStorage.getItem("auth")
-
-   const Logout=()=>{
-   localStorage.clear()
-   }
+  const handleLogout = async () => {
+    try {
+      await fetch("/logout", { method: "POST" });
+      navigate("/");
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.error(error);
+    }
+  };
     
   
 
@@ -28,19 +34,18 @@ function Navbar() {
         <li>
           <NavLink to="/dashboard/home" className="block py-2 pr-4 pl-3  bg-blue-700 rounded md:bg-transparent text-black md:p-0 dark:text-white" aria-current="page">Code</NavLink>
         </li>
-          {
-            isAuthenticated?(
+          
+           
               
          <li>
-         <NavLink  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={Logout}  >Logout</NavLink>
+         <NavLink  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={handleLogout}  >Logout</NavLink>
        </li>
-            ):(
+            
               
               <li>
-              <NavLink to="/login"  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Login</NavLink>
+              <NavLink to="/"  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Login</NavLink>
             </li>
-            )
-          }
+            
         
         <li>
               <NavLink to="/register"  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Register</NavLink>

@@ -27,11 +27,11 @@ const PORT = 4000;
 
 app.post("/register", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password,school,std } = req.body;
     const saltRounds = 10; // number of salt rounds to use for hashing
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    let user = new User({ username, email, password: hashedPassword });
+    let user = new User({ username, email, password: hashedPassword ,school,std });
     let result = await user.save();
     result = result.toObject();
     delete result.password;
@@ -79,6 +79,12 @@ app.post("/login", async (req, res) => {
     console.log(error);
     res.status(500).send({ error: "server error" });
   }
+});
+
+app.post("/logout", (req, res) => {
+  
+  res.clearCookie("jwt", { httpOnly: true });
+  res.status(200).json({ message: "Logout successful" });
 });
 
 // to save users and developer's projetcs
@@ -195,7 +201,7 @@ app.get('/fiddles/:id', verifyToken, async (req, res) => {
         projects: projects,
         allprojects: allprojects
       };
-      console.log(projects)
+      
       res.send(responseData)
 
     }
@@ -233,6 +239,25 @@ app.delete('/projects/:id', verifyToken, async (req, res) => {
   }
 });
 
+// to get all users data from master Route
+app.get('/master/getuserdata',verifyToken, async (req, res) => {
+  try {
+    
+    
+    const users = await User.find();
+    
+    if (!users) {
+      return res.status(404).send('no user found');
+      
+    }
+    res.send(users);
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
 
 // is admin api is to check that who have logged in is admin or not
 const isAdmin = async (req, res, next) => {
@@ -240,6 +265,28 @@ const isAdmin = async (req, res, next) => {
     const userId =  req.id
     const user = await User.findOne({ _id:userId });
     if (user.role !== 1) {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in admin middelware",
+    });
+  }
+};
+// ismaster api is to check that who have logged in is Master or not
+const isMaster = async (req, res, next) => {
+  try {
+    const userId =  req.id
+    const user = await User.findOne({ _id:userId });
+    if (user.role !== 2) {
       return res.status(401).send({
         success: false,
         message: "UnAuthorized Access",
@@ -266,6 +313,10 @@ app.get("/verifyuser",verifyToken,(req,res)=>{
 app.get("/verifyadmin",verifyToken,isAdmin,(req,res)=>{
   res.json({ message: 'This is a protected endpoint.' });
 }) 
+// // to check that Admin is logged in or not
+app.get("/verifymaster",verifyToken,isMaster,(req,res)=>{
+  res.json({ message: 'This is a protected endpoint.' });
+}) 
 
 function verifyToken(req, res, next) {
   const cookies = req.headers.cookie;
@@ -290,7 +341,58 @@ next()
    
 }
 
+// mongodb aggregate
+app.get('/master/users-by-school', async (req, res) => {
+  try {
+    const result = await User.aggregate([
+      {
+        $match: {
+          school: { $exists: true }
+        }
+      },
+      {
+        $group: {
+          _id: '$school',
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          school: '$_id',
+          count: 1
+        }
+      }
+    ]);
+    res.json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
+app.delete('/users-by-school/:school', async (req, res) => {
+  try {
+    const { school } = req.params;
+     
+    await User.deleteMany({ school });
+    res.send(`Users of ${school} school have been deleted`);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+app.get('/master/api/users', async (req, res) => {
+  try {
+    const users = await User.find({ school: { $exists: true } }, { email: 1, school: 1 });
+    
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 app.listen(PORT, (req, res) => {

@@ -40,7 +40,7 @@ function Home( ) {
         });
         result = await result.json();
       
-        console.log(result)
+        
           
         const project = result.projects.find(p => p._id.toString() === id);
         if(!project){
@@ -101,6 +101,8 @@ function Home( ) {
        
     }
   };
+
+  
 
 
  const run = () => {
