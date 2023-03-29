@@ -219,7 +219,7 @@ app.get('/fiddles/:id', verifyToken, async (req, res) => {
 app.delete('/projects/:id', verifyToken, async (req, res) => {
   try {
     const userId =  req.id
-    const projectId = req.params.id;
+    const projectId = req.params.id; 
     const user = await User.findOne({ _id:userId });
     if(user.role===0){
     const user = await User.findByIdAndUpdate(userId, { $pull: { projects: { _id: projectId } } }, { new: true });
@@ -388,6 +388,20 @@ app.get('/master/api/users', async (req, res) => {
     const users = await User.find({ school: { $exists: true } }, { email: 1, school: 1 });
     
     res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+ 
+app.delete('/master/user/:id', verifyToken, async (req, res) => {
+  try {
+     const userid=req.params.id
+      
+    const user = await User.findByIdAndDelete(userid);
+    res.send(user)
+     
+ 
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

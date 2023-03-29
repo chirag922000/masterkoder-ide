@@ -6,28 +6,54 @@ const UserTable = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(()   => {
+  useEffect(() => {
+    fetch_userdata()
+  }, []); 
+
+
+
+  const fetch_userdata=async()=>{
     try {
-        fetch('/master/api/users', { method: 'GET' })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            setUsers(data);
-          })
-          .catch(err => console.error(err.message));
-      } catch(error) {
-        console.log(error);
-      }
-   
-  }, []);
+      await fetch('/master/api/users', { method: 'GET' })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          setUsers(data);
+        })
+        .catch(err => console.error(err.message));
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
 //   console.log(users)
   const filteredUsers = users.filter(user =>
     user.email.includes(searchTerm) || user.school.includes(searchTerm)
   );
 
-  const removeUser=(userid)=>{
-    fetch()
+  const removeUser= async(userid)=>{
+    try{
+      console.log(userid)
+      const result = await fetch(`/master/user/${userid}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if(result.ok){
+         alert("user deleted")
+          fetch_userdata()
+      } else {
+        throw new Error("Delete failed with status " + result.status);
+      }
+
+    }catch(error){
+
+    }
+    
   }
+
+ 
 
   return (
     <div>
