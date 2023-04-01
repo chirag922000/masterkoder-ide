@@ -53,26 +53,31 @@ function Fiddles() {
     }
   }
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  const deleteProject = async (project_id) => {
-    try {
-      const result = await fetch(`/projects/${project_id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (result.ok) {
-        console.log("ok");
-         
-        getProducts();
-        alert("project Deleted")
-      } else {
-        throw new Error("Delete failed with status " + result.status);
+  const deleteProject = async ( project_id  ) => {
+     
+    const confirmDelete = window.confirm("Are you sure you want to delete this project?");
+    if(confirmDelete){
+      try {
+        const result = await fetch(`/projects/${project_id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (result.ok) {
+           
+           
+          getProducts();
+          alert("project Deleted")
+        } else {
+          throw new Error("Delete failed with status " + result.status);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
+    
   };
 
   return (
@@ -86,7 +91,7 @@ function Fiddles() {
               <div className="card">
                 <h3>{project.name}</h3>
                <a href={`fiddles/${project._id}`} key={`start-coding-${index}`}><p>Start Coding</p></a> 
-                <button onClick={() => deleteProject(project._id)} key={`delete-project-${index}`}><p>Delete</p></button>
+                <button onClick={() => deleteProject(project._id ,project.name)} key={`delete-project-${index}`}><p>Delete</p></button>
                 
               </div>
             </div>

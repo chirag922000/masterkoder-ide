@@ -65,15 +65,22 @@ function Home( ) {
       };
       getProducts()
     }
+
+     // Auto-save feature
+     const saveInterval = setInterval(() => {
+      saveProject();
+      console.log("saved project")
+    }, 100000); // 5 minutes in milliseconds
+    return () => clearInterval(saveInterval);
     
   },[id])
 
   
-const clearScreen=()=>{
-  const iframe = document.querySelector("#output");
-  iframe.setAttribute("src", "");
-  iframe.contentDocument.body.innerHTML = "";
-}
+    const clearScreen=()=>{
+     const iframe = document.querySelector("#output");
+     iframe.setAttribute("src", "");
+      iframe.contentDocument.body.innerHTML = "";
+    }
 
   const saveProject = async () => {
     
@@ -110,6 +117,7 @@ const clearScreen=()=>{
     }
   }
   };
+  
 const openFullscreen=()=>{
   const iframe = document.querySelector("#output");
   if (iframe.requestFullscreen) {
@@ -150,7 +158,7 @@ const clearAll=()=>{
   return (<>
     <div className="container">
  
-    
+     
       <AceEditor
         setOptions={{ useWorker: false }}
         mode="html"
@@ -186,20 +194,23 @@ const clearAll=()=>{
         style={{resize: "both"}}
         fontSize={16}
       />
+
+
       </div>
 
       <button  onClick={run}>Run</button><br/>
       <input type="text" placeholder="Project Name" value={projectName} onChange={e => setProjectName(e.target.value)} />
       <button  onClick={saveProject} >save code</button>  
-    <button onClick={clearAll}>Clear all</button>
-    <button onClick={clearScreen}>Clear screen</button>
-    <button onClick={openFullscreen}>Full Screen</button>
+      <button onClick={clearAll}>Clear all</button>
+      <button onClick={clearScreen}>Clear screen</button>
+      <button onClick={openFullscreen}>Full Screen</button>
 
       <div className="output">
-    <iframe id="output" title="Output"></iframe>
-     </div>
+       <iframe id="output" title="Output"></iframe>
+      </div>
     
-    </>);
+    </>
+    );
 }
 
 export default Home;

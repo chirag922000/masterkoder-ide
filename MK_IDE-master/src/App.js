@@ -17,7 +17,8 @@ import MasterAllusers from "./Master/MasterAllusers"
 function App() {
  
   return (
-     <div className="App">
+    <>
+     
     
       <Navbar />
       <Routes>
@@ -48,10 +49,8 @@ function App() {
 
       <Route path="*" element={<Error />} />
       </Routes>
-        
-
       
-    </div>
+      </>
   );
 }
 
