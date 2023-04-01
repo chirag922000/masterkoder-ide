@@ -31,7 +31,7 @@ function Home( ) {
       const getProducts = async () => {
         try{
           
-          let result = await fetch(` /fiddles/${id}`, {
+          let result = await fetch(`/fiddles/${id}`, {
             headers: {
               'Content-Type': 'application/json',
                
@@ -69,9 +69,17 @@ function Home( ) {
   },[id])
 
   
-
+const clearScreen=()=>{
+  const iframe = document.querySelector("#output");
+  iframe.setAttribute("src", "");
+  iframe.contentDocument.body.innerHTML = "";
+}
 
   const saveProject = async () => {
+    
+    if(!projectName || (!htmlCode && !cssCode && !jsCode)){
+      alert("please write project name and some code to save project")
+    } else{
     try {
        
        
@@ -89,7 +97,7 @@ function Home( ) {
           js: jsCode,
         }),
       });
-    
+      
       const data = await response.json();
        if(response.ok){
         alert("project saved")
@@ -100,12 +108,19 @@ function Home( ) {
      
        
     }
+  }
   };
-
+const openFullscreen=()=>{
+  const iframe = document.querySelector("#output");
+  if (iframe.requestFullscreen) {
+    iframe.requestFullscreen();
+  }
+}
   
 
 
  const run = () => {
+ 
     try{
     const iframe = document.querySelector("#output");
     // const sanitizedHtml = DOMPurify.sanitize(htmlCode);
@@ -177,13 +192,12 @@ const clearAll=()=>{
       <input type="text" placeholder="Project Name" value={projectName} onChange={e => setProjectName(e.target.value)} />
       <button  onClick={saveProject} >save code</button>  
     <button onClick={clearAll}>Clear all</button>
+    <button onClick={clearScreen}>Clear screen</button>
+    <button onClick={openFullscreen}>Full Screen</button>
+
       <div className="output">
     <iframe id="output" title="Output"></iframe>
-     
-    {/* <div className="console" id="console"></div> */}
-
-
-    </div>
+     </div>
     
     </>);
 }

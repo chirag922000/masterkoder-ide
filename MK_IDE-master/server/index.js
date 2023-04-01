@@ -92,6 +92,7 @@ app.post("/save",verifyToken,async(req,res)=>{
   const { name, html, css, js } = req.body;
   const userID=req.id
   const user = await User.findOne({ _id :userID});
+  if(name){
   try{
     if(user.role===0){
       const projectIndex = user.projects.findIndex(proj => proj.name === name);
@@ -122,6 +123,9 @@ app.post("/save",verifyToken,async(req,res)=>{
     }
 }catch(error){
     console.log(error)
+  }
+  }else{
+    res.send("project name is not provided")
   }
 
 })

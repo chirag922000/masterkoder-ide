@@ -48,21 +48,7 @@ function App() {
 
       <Route path="*" element={<Error />} />
       </Routes>
-       {/* <Routes>
-           
-          <Route  path="/login" element={<Login />} />
-          <Route  path="/register" element={<Register />} />
-          <Route path="/" element={<   Home  />} />
-          <Route path="/fiddles" element={<  Fiddles    />} />
-          <Route path="/fiddles/:id" element={ < Home  />}  />
-
-          <Route path="/developer" element={<DeveloperLogin/>}/>
-              <Route path="/dashboard" element={< DeveloperScreen/>}  />
-          <Route/>
-
-          <Route path="*"  element={<  Error  />} />
-          
-          </Routes> */}
+        
 
       
     </div>

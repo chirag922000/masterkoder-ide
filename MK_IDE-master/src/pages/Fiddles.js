@@ -22,7 +22,7 @@ function Fiddles() {
       if (result) {
         const data = await result.json();
 
-        console.log(data);
+        
         setProjects(data);
       } else {
         throw new Error("Fetch failed with status " + result.status);
@@ -43,7 +43,7 @@ function Fiddles() {
       if (result) {
         const projects_data = await result.json();
         
-        console.log(projects_data);
+         
         setAllProjects(projects_data);
       } else {
         throw new Error("Fetch failed with status " + result.status);

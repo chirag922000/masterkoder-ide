@@ -1,6 +1,7 @@
  
 import React, { useState  } from "react";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 function Login( ) {
   const [email, setEmail] = useState("");
@@ -24,8 +25,11 @@ function Login( ) {
       })
       result=await result.json()
        
-     if(result){
-       navigate("/dashboard/fiddles")
+     if(result ){ 
+      
+        
+     localStorage.setItem('token', result.token);
+     navigate("/dashboard/fiddles");
     }
       
       }catch(error){
@@ -69,6 +73,7 @@ function Login( ) {
           Login
         </button>
       </form>
+      <Toaster />
     </div>
   );
 }
