@@ -1,14 +1,22 @@
-.container{
+.editor-container{
+   
+  
+  
+   
     display: flex;
     flex-direction: wrap;
     gap: 20px;
     margin-top: 10px;
+    
   }
-  AceEditor{
-    height: 400px;
+  .editor{
+   
+    display: flex;
+    gap: .5rem;
+    /* height: 400px;
     flex: 1 0 200px;
     
-    overflow: auto;
+    overflow: auto; */
   }
   iframe {
     
@@ -24,50 +32,12 @@
     
   }
   
-  button {
-    padding: 2%;
-    background-color: #dfd;
-    border: none;
-    border-radius: 2%;
-  }
   
-  button:hover {
-    bottom: 0.1em;
-  }
-  
-  button:focus {
-    outline: 0;
-  }
-  
-  button:active {
-    bottom: 0;
-    background-color: #fdf;
-  }
-  .inputbox{
-    display: block;
-    margin: 25px;
-    padding: 7px;
-    width: 300px;
-    border: 1px solid skyblue;
-  }
-
-  #console {
-    border: 1px solid #000000;
-    padding: 10px;
-    margin-top: 10px;
-    height: 100px;
-    overflow: auto;
-    width: 50%;
-  }
-  
-  .log {
-    color: green;
-  }
-  
-  .error {
-    color: red;
-  }
  
+
+   
+  
+  
   
   
   

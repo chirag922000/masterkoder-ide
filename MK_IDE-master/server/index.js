@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("./modal/User");
 const DeveloperProjects=require("./modal/DeveloperProjects")
+const Accordion =require("./modal/Accordion")
 const jwtkey = "e-commerce";
 const app = express();
 //  app.use(cors())
@@ -411,6 +412,78 @@ app.delete('/master/user/:id', verifyToken, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+// Add accordion
+app.post("/add-accordion", async (req, res) => {
+  try {
+    const { title, items } = req.body;
+    const accordion = new Accordion({
+      title,
+      items,
+    });
+    const savedAccordion = await accordion.save();
+    res.status(201).json(savedAccordion);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// to fetch all accordions
+app.get('/get-accordion',verifyToken, async (req, res) => {
+  try {
+    
+    
+    const accordions = await Accordion.find();
+    
+    if (!accordions) {
+      return res.status(404).send('no projects found');
+      
+    }
+    
+    res.send(accordions);
+    // console.log(user.projects)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+// to content get data on contentpage
+app.get('/learn/:id', verifyToken, async (req, res) => {
+  const contentid = req.params.id; 
+
+  try{
+    const accordion = await Accordion.findOne({ "items._id": contentid }, { "items.$": 1 });
+  
+    if (accordion) {
+      const content = accordion.items[0].content;
+    
+      // console.log(content);
+      res.send(content)
+    } else {
+      console.log("Matching topic not found!");
+    }
+  }catch(error){
+    console.log(error)
+  }
+ 
+//   try {
+//     const contentid = req.params.id; 
+     
+//     const content=await Accordion.items.findById(contentid)
+//     if(content){
+       
+//       res.send(content)
+//     }else{
+//       console.log("not found")
+//     }
+     
+//  } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+});
+
 
 
 app.listen(PORT, (req, res) => {

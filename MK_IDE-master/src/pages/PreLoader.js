@@ -3,6 +3,7 @@ import "./preloader.css"
 
 function PreLoader() {
   return (
+	 
     <div>
         
         <div className="body">

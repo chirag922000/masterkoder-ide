@@ -13,7 +13,10 @@ import DashboardLandingPage from "./pages/DashboardLandingPage"
 import MasterRoute from "./Master/MasterRoute";
 import MasterDashboard from "./Master/MasterDashboard";
 import MasterAllusers from "./Master/MasterAllusers"
-
+import AddLearningJourney from "./Developer/AddLearningJourney";
+import Learn from "./pages/Learn";
+import ContentPage from "./pages/ContentPage";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
  
   return (
@@ -31,7 +34,9 @@ function App() {
      {/* user Routes */}
       <Route path="/dashboard" element={<PrivateRoute/>}>
         <Route path="" element={<DashboardLandingPage />} />
-        <Route path="home" element={<   Home  />} />
+          <Route path="learn" element={<Learn />} />
+          <Route path="learn/:id" element={< ContentPage/>} />
+         <Route path="home" element={<   Home  />} />
         <Route path="fiddles" element={<  Fiddles    />} />
        <Route path="fiddles/:id" element={ < Home  />}  />
       </Route>
@@ -39,6 +44,7 @@ function App() {
     {/* Admin Routes */}
       <Route path="/dashboard" element={<AdminRoute/>}>
          <Route path="developer" element={<AdminDashboard/>}/>
+         <Route path="addtopics" element={<AddLearningJourney/>}/>
       </Route>
 
       <Route path="/master" element={<MasterRoute/>}>

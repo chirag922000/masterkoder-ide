@@ -1,0 +1,23 @@
+.main-div {
+    width: 80%;
+    margin: 0 auto;
+   
+    display: flex;
+    justify-content: center;
+  }
+  
+  .slick-slider {
+    width: 90%;
+    margin: 0 auto;
+  
+  }
+
+  .contentimg{
+    display: block;
+    margin: auto;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: rgb(245, 0, 0);
+  }
+  

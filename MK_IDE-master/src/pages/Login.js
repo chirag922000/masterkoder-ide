@@ -26,15 +26,12 @@ function Login( ) {
       result=await result.json()
        
      if(result ){ 
-      
-        
      localStorage.setItem('token', result.token);
      navigate("/dashboard/fiddles");
     }
-      
-      }catch(error){
+    }catch(error){
         console.log(error)
-      }
+    }
       
     }
   
