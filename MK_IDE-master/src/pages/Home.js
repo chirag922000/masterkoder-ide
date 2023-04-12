@@ -7,13 +7,13 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-twilight";
 import "./home.css";
 import Spinner from "react-bootstrap/Spinner";
-
+import useStorage from "./LocalStorage"
 // import { useLocation } from 'react-router-dom';
 
 function Home() {
-  const [htmlCode, setHtmlCode] = useState("");
-  const [cssCode, setCssCode] = useState("");
-  const [jsCode, setJsCode] = useState("");
+  const [htmlCode, setHtmlCode] = useStorage("htmlCode","");
+  const [cssCode, setCssCode] = useStorage("cssCode","");
+  const [jsCode, setJsCode] = useStorage("jsCode","");
   const [projectName, setProjectName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
@@ -88,6 +88,7 @@ function Home() {
         const data = await response.json();
         if (response.ok) {
           setIsLoading(false);
+         
         }
 
         return data;
