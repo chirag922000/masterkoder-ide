@@ -134,6 +134,7 @@ function Home() {
      
       <div className="editor-container">
         <AceEditor
+        language="Html"
          className="editor"
           setOptions={{ useWorker: false }}
           mode="html"
