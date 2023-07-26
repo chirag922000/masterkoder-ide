@@ -27,7 +27,7 @@ function Login( ) {
        
      if(result ){ 
      localStorage.setItem('token', result.token);
-     navigate("/dashboard/fiddles");
+     navigate("/dashboard/home");
     }
     }catch(error){
         console.log(error)

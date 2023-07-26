@@ -1,5 +1,5 @@
  
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -11,13 +11,13 @@ function Register() {
 
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const auth=localStorage.getItem("token")
-    if (auth)
-    {
-      navigate("/")
-    }
-  })
+  // useEffect(()=>{
+  //   const auth=localStorage.getItem("token")
+  //   if (auth)
+  //   {
+  //     navigate("/")
+  //   }
+  // },[] )
    
   const collectData = async (event) => {
     event.preventDefault();

@@ -34,6 +34,8 @@ function ContentPage() {
     getContentData();
   }, [id]);
 
+  console.log(data)
+
   const newArray = data.map((item) => {
     if (item.contentimg && item.contenttext) {
       return   'image' 
@@ -46,7 +48,7 @@ function ContentPage() {
     }
   });
 
-  console.log(newArray);
+   
    
 
   

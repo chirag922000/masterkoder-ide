@@ -36,7 +36,7 @@ app.post("/register", async (req, res) => {
     let result = await user.save();
     result = result.toObject();
     delete result.password;
-    jwt.sign({result}, jwtkey, {expiresIn:"2h"}, (err, token) => {
+    jwt.sign({result}, jwtkey , (err, token) => {
         if(err){
             res.send({result:"jwt failed"})
         }
@@ -53,11 +53,11 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     let user = await User.findOne({ email });
-    console.log(user)
+  
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        const token = jwt.sign({ id:user._id }, jwtkey, { expiresIn: "2h" });
+        const token = jwt.sign({ id:user._id }, jwtkey );
          
         res.cookie("jwt", token,{
           httpOnly: true,
@@ -231,7 +231,8 @@ app.delete('/projects/:id', verifyToken, async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    console.log("deleted")
+     
+  
     res.send(user) 
   }else if(user.role===1){
     const user = await DeveloperProjects.findByIdAndDelete(projectId);
@@ -336,7 +337,7 @@ function verifyToken(req, res, next) {
 
 jwt.verify(String(token),jwtkey,(err,user)=>{
   if(err){
-    return res.json({massage:"invalid token"})
+    return res.status(401).json({massage:"invalid token"})
   }
    
   req.id=user.id
@@ -458,7 +459,7 @@ app.get('/learn/:id', verifyToken, async (req, res) => {
     if (accordion) {
       const content = accordion.items[0].content;
     
-      // console.log(content);
+      
       res.send(content)
     } else {
       console.log("Matching topic not found!");
@@ -467,21 +468,7 @@ app.get('/learn/:id', verifyToken, async (req, res) => {
     console.log(error)
   }
  
-//   try {
-//     const contentid = req.params.id; 
-     
-//     const content=await Accordion.items.findById(contentid)
-//     if(content){
-       
-//       res.send(content)
-//     }else{
-//       console.log("not found")
-//     }
-     
-//  } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
+ 
 });
 
 

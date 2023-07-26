@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react'
-import "../pages/fiddles.css"
+import "../pages/home.css"
 
 function AdminDashboard() {
   const [projects, setProjects] = useState([]);
@@ -66,7 +66,7 @@ function AdminDashboard() {
             <div className="column" key={`all-project-${index}`}>
               <div className="card">
                 <h3>{project.name}</h3>
-               <a href={`fiddles/${project._id}`} key={`start-coding-all-${index}`}><p>Start Coding</p></a> 
+               <a href={`home/${project._id}`} key={`start-coding-all-${index}`}><p>Start Coding</p></a> 
                 <button onClick={() => deleteProject(project._id)} key={`delete-project-${index}`}><p>Delete</p></button>
                 
               </div>
