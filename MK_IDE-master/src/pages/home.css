@@ -1,5 +1,5 @@
 
-/* fiddles.css */
+ 
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -47,42 +47,3 @@ button:hover {
 
 
  
-/* .column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-}
-
-* {
-  box-sizing: border-box;
-}
- 
-.row {margin: auto; padding: 10px;}
-
- 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
- 
-@media screen and (max-width: 400px) {
-  .column {
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-}
-
- 
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  margin-top: 5px;
-  background-color: #87cf79;
-  border-radius: 10px;
-} */

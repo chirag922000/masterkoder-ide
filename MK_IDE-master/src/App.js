@@ -1,6 +1,8 @@
 import {   Route, Routes   } from "react-router-dom";
-import "./App.css";
-
+import "./vendor/bootstrap/css/bootstrap.min.css";
+import "./assets/css/templatemo-chain-app-dev.css";
+import "./assets/css/animated.css";
+// import "./assets/css/owl.css"
 import Login from "./pages/Login";
 import Code from "./pages/Code";
 import Navbar from "./pages/Navbar";
@@ -24,8 +26,9 @@ function App() {
     <>
      
     
-      <Navbar />
+     <Navbar/>
       <Routes>
+      
       <Route>
          <Route  path="/" element={<Login />} />
          
@@ -38,7 +41,7 @@ function App() {
           {/* <Route path="learn" element={<Learn />} /> */}
           {/* <Route path="learn/:id" element={< ContentPage/>} /> */}
          <Route path="code" element={<   Code  />} />
-        <Route path="home" element={<  Home    />} />
+        <Route path="home" element={< Home />} />
        <Route path="home/:id" element={ < Code  />}  />
       </Route>
 

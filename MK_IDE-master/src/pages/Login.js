@@ -36,6 +36,7 @@ function Login( ) {
     }
   
   return (
+    <>
     <div className="w-screen h-[80vh] flex  justify-center items-center">
       <form
         
@@ -72,6 +73,7 @@ function Login( ) {
       </form>
        
     </div>
+    </>
   );
 }
 

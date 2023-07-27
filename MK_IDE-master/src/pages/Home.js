@@ -18,7 +18,7 @@ function Fiddles() {
 
   const getProducts = async () => {
     try {
-      const result = await fetch(" /projects", {
+      const result = await fetch("/projects", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
