@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
         
          return res
          .status(200)
-         .json({massage:"logged in ",user:user,token})
+         .json({massage:"logged in ",user:user.role,token})
         
          
       } else {
@@ -310,9 +310,32 @@ const isMaster = async (req, res, next) => {
   }
 };
 
+const isUser = async (req, res, next) => {
+  try {
+    const userId =  req.id
+    const user = await User.findOne({ _id:userId });
+    if (user.role !== 0) {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in admin middelware",
+    });
+  }
+};
+
+
 
 // to check that user is logged in or not
-app.get("/verifyuser",verifyToken,(req,res)=>{
+app.get("/verifyuser",verifyToken,isUser,(req,res)=>{
   res.json({ message: 'This is a protected endpoint.' });
 }) 
 // // to check that Admin is logged in or not

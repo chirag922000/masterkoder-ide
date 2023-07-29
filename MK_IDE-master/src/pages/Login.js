@@ -1,5 +1,5 @@
  
-import React, { useState  } from "react";
+import React, { useEffect, useState  } from "react";
 import { useNavigate } from "react-router-dom";
  
 
@@ -8,7 +8,13 @@ function Login( ) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
    
-  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Redirect the user to the home dashboard if they are already logged in
+      navigate('/dashboard/home');
+    }
+  }, [navigate]);
    
   
     
@@ -27,7 +33,16 @@ function Login( ) {
        
      if(result ){ 
      localStorage.setItem('token', result.token);
-     navigate("/dashboard/home");
+     const user_role= JSON.stringify(result.user);
+
+     if(user_role === "0"){ 
+      navigate("/dashboard/home")
+    }else if(user_role==="1"){
+      navigate("/dashboard/developer")
+    }else if(user_role==="2"){
+      navigate("/master/dash-board")
+    }
+    ;
     }
     }catch(error){
         console.log(error)
@@ -37,41 +52,33 @@ function Login( ) {
   
   return (
     <>
-    <div className="w-screen h-[80vh] flex  justify-center items-center">
-      <form
-        
-        className="flex flex-col  w-[50%]  space-y-4  "
-      >
-        <h1 className="text-xl "> Login</h1>
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <form className="col-md-6 p-4 border rounded">
+        <h1 className="text-center mb-4">Login</h1>
 
-        <div className="flex flex-col ">
-          <label className="text-xl ">Email</label>
+        <div className="form-group">
+          <label>Email</label>
           <input
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             placeholder="Enter Your Email"
-            className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
+            className="form-control"
           />
         </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">Password</label>
+        <div className="form-group">
+          <label>Password</label>
           <input
             onChange={(e) => setPassword(e.target.value)}
-            type="text"
+            type="password"
             placeholder="Enter Your Password"
-            className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
+            className="form-control"
           />
         </div>
 
-        <button
-          onClick={collectData}
-          type="submit"
-          className="w-full flex justify-center items-center bg-blue-300 py-3 rounded-lg"
-        >
+        <button onClick={collectData} type="submit" className="btn btn-primary w-100">
           Login
         </button>
       </form>
-       
     </div>
     </>
   );

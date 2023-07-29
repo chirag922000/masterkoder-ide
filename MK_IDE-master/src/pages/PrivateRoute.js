@@ -1,11 +1,12 @@
 import React, { useEffect, useState ,} from 'react';
-import { Outlet ,useNavigate} from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import PreLoader from './PreLoader';
+import Error from "../pages/Error"
 
 const PrivateRoute = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userFound, setUserFound] = useState(false);
-  const navigate = useNavigate();
+ 
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -39,7 +40,8 @@ const PrivateRoute = () => {
     return <Outlet />;
   }
 
-  return navigate("/");
+  return <Error/>
+ 
 };
 
 export default PrivateRoute;

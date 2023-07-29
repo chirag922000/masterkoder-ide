@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {  NavLink, useNavigate } from 'react-router-dom'
 import "./navbar.css"
-
+import logo from "./logo.png"
 
 function Navbar() {
 
@@ -90,7 +90,7 @@ function Navbar() {
             <nav className="main-nav">
 
               <a href="index.html" className="logo">
-                <img src="../images/logo.png" alt="Chain App Dev" />
+                <img src={logo} alt="Chain App Dev" />
               </a>
 
               {/* <ul className="nav">
@@ -105,15 +105,15 @@ function Navbar() {
 
 <li className="scroll-to-section"><NavLink to="/dashboard/home"  >Home</NavLink></li>
 <li className="scroll-to-section"><NavLink to="/dashboard/code">Code</NavLink></li>
-<li className="scroll-to-section"><NavLink onClick={handleLogout}>Logout</NavLink></li>
+<li className="gradient-button"><NavLink  onClick={handleLogout}><i className="fa fa-sign-in-alt"></i>Logout</NavLink></li>
  
 </ul>):(<ul className="nav">
 
  
-<li><div className="gradient-button"><NavLink id="modal_trigger" to="/"><i className="fa fa-sign-in-alt"></i> Login</NavLink></div></li>
+<li><div className="gradient-button"><NavLink style={{color:"white"}} id="modal_trigger" to="/"><i className="fa fa-sign-in-alt"></i> Login</NavLink></div></li>
 </ul>)}
 
-              <a className='menu-trigger' href='#menu'>
+              <a className='menu-trigger'>
                 <span>Menu</span>
               </a>
 
