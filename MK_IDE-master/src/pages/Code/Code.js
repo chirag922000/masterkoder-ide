@@ -7,7 +7,7 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-twilight";
 import "./code.css";
 // import Spinner from "react-bootstrap/Spinner";
-import useStorage from "./LocalStorage"
+import useStorage from "../LocalStorage"
 // import { useLocation } from 'react-router-dom';
 
 function Home() {
@@ -110,18 +110,19 @@ function Home() {
   };
 
   return (
-    <div className="container">
-    <div className="editor-container">
+    <div className='code-body'>
+    <div className="editor-container">  
       <AceEditor
         className="editor"
         setOptions={{ useWorker: false }}
         mode="html"
         theme="twilight"
+        placeholder='html'
         onChange={(newCode) => setHtmlCode(newCode)}
         value={htmlCode}
         name="html-code"
         editorProps={{ $blockScrolling: true }}
-        style={{ resize: "both" }}
+        style={{ resize: "horizontal" }}
         fontSize={16}
       />
 
@@ -130,11 +131,12 @@ function Home() {
         setOptions={{ useWorker: false }}
         mode="css"
         theme="twilight"
-        onChange={(newCode) => setCssCode(newCode)}
+       placeholder='css'
+       onChange={(newCode) => setCssCode(newCode)}
         value={cssCode}
         name="css-code"
         editorProps={{ $blockScrolling: true }}
-        style={{ resize: "both" }}
+        style={{ resize: "horizontal" }}
         fontSize={16}
       />
 
@@ -143,42 +145,45 @@ function Home() {
         setOptions={{ useWorker: false }}
         mode="javascript"
         theme="twilight"
+        placeholder='javascript'
         onChange={(newCode) => setJsCode(newCode)}
-        value={jsCode}
+         value={jsCode}
         name="js-code"
         editorProps={{ $blockScrolling: true }}
-        style={{ resize: "both" }}
+        style={{ resize: "horizontal" }}
         fontSize={16}
       />
     </div>
-
-    <button className="button" onClick={run}>
+    <div className='buttons-group-ide'>
+    <button style={{ padding:"5px 50px"}} onClick={run}  className="button-30 " >
       Run
     </button>
-    <br />
+   
     <input
       className="project-name"
       type="text"
       placeholder="Project Name"
       value={projectName}
       onChange={(e) => setProjectName(e.target.value)}
+      maxLength={24}
     />
-    <button className="button" onClick={saveProject}>
-      {isLoading ? "Saving..." : "Save code"}
+     
+    <button className="button-30 "  onClick={saveProject}>
+    Save code
     </button>
 
-    <button className="button" onClick={clearAll}>
+    <button className="button-30 " onClick={clearAll} >
       Clear all
     </button>
-    <button className="button" onClick={clearScreen}>
+    <button className="button-30 " onClick={clearScreen} >
       Clear screen
     </button>
-    <button className="button full-screen" onClick={openFullscreen}>
+    <button className="button-30 full-screen" onClick={openFullscreen} >
       Full Screen
     </button>
-
+    </div>
     <div className="output">
-      <iframe id="output" title="Output"></iframe>
+      <iframe id="output" title="Output"  ></iframe>
     </div>
   </div>
     // <div  >

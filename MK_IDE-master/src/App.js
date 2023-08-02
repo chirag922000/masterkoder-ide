@@ -1,13 +1,13 @@
 import {   Route, Routes   } from "react-router-dom";
-import "./vendor/bootstrap/css/bootstrap.min.css";
-import "./assets/css/templatemo-chain-app-dev.css";
-import "./assets/css/animated.css";
+// import "./vendor/bootstrap/css/bootstrap.min.css";
+// import "./assets/css/templatemo-chain-app-dev.css";
+// import "./assets/css/animated.css";
 // import "./assets/css/owl.css"
-import Login from "./pages/Login";
-import Code from "./pages/Code";
-import Navbar from "./pages/Navbar";
+import Login from "./pages/Login/Login";
+import Code from "./pages/Code/Code";
+import Navbar from "./pages/Navbar/Navbar";
 import Register from "./Master/Register";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import PrivateRoute from "./pages/PrivateRoute";
 import Error from "./pages/Error";
 import AdminRoute from "./Developer/AdminRoute"

@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
         
          return res
          .status(200)
-         .json({massage:"logged in ",user:user.role,token})
+         .json({massage:"logged in ",user:user.role,token,email:user.email})
         
          
       } else {

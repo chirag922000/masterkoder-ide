@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import { useNavigate } from 'react-router-dom';
-import useStorage from "./LocalStorage"
+import useStorage from "../LocalStorage"
 import "./home.css";
+import proj_img from "./coding.avif"
 
 function Fiddles() {
   const [htmlCode, setHtmlCode] = useStorage("htmlCode","");
@@ -107,39 +108,45 @@ function Fiddles() {
   
   return (
     <>
-      {
+    {/* <h4 style={{marginLeft:"5px"}}>My Projects</h4> */}
+    {
+      
+      <div class="card-container">
         
-        <div className="row">
-          <h3 className="h3">My Projects</h3><br/><br/>
-          {projects.map((project, index) => (
-            <div className="column" key={`my-project-${index}`}>
-              <div className="card">
-                <h3>{project.name}</h3>
-               <a href={`home/${project._id}`} key={`start-coding-${index}`} onClick={() => get_Project_data(project)} ><p>Start Coding</p></a> 
-                <button className="btn1" onClick={() => deleteProject(project._id ,project.name)} key={`delete-project-${index}`}><p>Delete</p></button>
-                
-              </div>
-            </div>
-           
-          ))}
-        </div>
-      }
+        {projects.map((project, index) => (
+        <div class="card-home " key={`my-project-${index}`}>
+        <img src={proj_img} alt="I 1" loading="lazy"/>
+        <h2>{project.name}</h2>
+        <a href={`home/${project._id}`} key={`start-coding-${index}`}><button class="button-30" onClick={() => get_Project_data(project)}>Start Coding</button></a>
+         
+        <button class="button-30" onClick={() => deleteProject(project._id ,project.name)} key={`delete-project-${index}`}>Delete</button>
+        
+        <p >Date: 7-31-23</p>
+      </div> ))}
+         
+      </div>
+    }
+       
 
       
+       {/* <h1 style={{textAlign:"center",margin:"5px"}}>All Projects</h1>
       {
-        <div className="row">
-        <h3>All Projects</h3> <br/>
-        {allprojects.map((allproject ,index ) => (
-          <div className="column" key={allproject._id}>
-            <div className="card">
-              <h3>{allproject.name}</h3>
-             <a href={`home/${allproject._id}`} key={allproject._id} onClick={()=>get_Allproject_data(allproject)}><p>Start Coding</p></a> 
-            </div>
-          </div>
+      
+      <div class="card-container">
+        
+        {allprojects.map((allproject, index) => (
+        <div class="card-home " key={allproject._id}>
+        <img src={proj_img} alt="I 1" loading="lazy"/>
+        <h2>{allproject.name}</h2>
+        <a href={`home/${allproject._id}`} key={allproject._id} ><button class="button-30" onClick={()=>get_Allproject_data(allproject)}>Start Coding</button></a>
          
-        ))}
+ 
+        
+        <p >Date: 7-31-23</p>
+      </div> ))}
+         
       </div>
-      }
+    } */}
     </>
   );
 }
