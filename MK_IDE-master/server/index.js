@@ -1,5 +1,6 @@
 const express = require("express");
- 
+const csvParser = require('csv-parser');
+const multer = require('multer');
 const InitiateMongoServer = require("./config/db");
  const cookieParser =require("cookie-parser")
 const cors = require("cors");
@@ -10,10 +11,11 @@ const DeveloperProjects=require("./modal/DeveloperProjects")
 const Accordion =require("./modal/Accordion")
 const jwtkey = "e-commerce";
 const app = express();
+const fs = require('fs');
 //  app.use(cors())
  app.use(cookieParser())
 app.use(cors( ));
-
+const upload = multer({ dest: 'uploads/' });
 
  
 app.use(express.json());
@@ -51,30 +53,28 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  try {
+   try {
     let user = await User.findOne({ email });
-  
+   
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
+       
       if (isMatch) {
         const token = jwt.sign({ id:user._id }, jwtkey );
-         
+        
         res.cookie("jwt", token,{
           httpOnly: true,
-           
-          maxAge: 2 * 60 * 60 * 1000, // 2 hours
         })
-        
-         return res
+        return res
          .status(200)
          .json({massage:"logged in ",user:user.role,token,email:user.email})
         
          
       } else {
-        res.send({ result: "invalid password" });
+        res.status(500).send({ message: "invalid password" });
       }
     } else {
-      res.send({ result: "no user exist" });
+      res.status(500).send({ message: "no user exist" });
     }
   } catch (error) {
     console.log(error);
@@ -95,12 +95,19 @@ app.post("/save",verifyToken,async(req,res)=>{
   const user = await User.findOne({ _id :userID});
   if(name){
   try{
+    
+
     if(user.role===0){
       const projectIndex = user.projects.findIndex(proj => proj.name === name);
           if (projectIndex === -1) { 
+            if (user.projects.length >= 3) {
+              // If the user already has three projects, return an error message.
+              return res.status(400).json({ message: 'Maximum project limit reached (3 projects allowed).' });
+            }else{
             // project doesn't exist yet
             const project = { name, html, css, js };
             user.projects.push(project);
+          }
           } else {
              // project already exists, so update it
             user.projects[projectIndex].html = html;
@@ -493,8 +500,43 @@ app.get('/learn/:id', verifyToken, async (req, res) => {
  
  
 });
+// insert multiple users to database
+app.post('/upload', upload.single('csvFile'), async (req, res) => {
+  try {
+    const results = [];
 
+    fs.createReadStream(req.file.path)
+      .pipe(csvParser())
+      .on('data', (data) => results.push(data))
+      .on('end', async () => {
+        for (const data of results) {
+          const password = data.password; // Get the password from the CSV file
 
+          const saltRounds = 10; // number of salt rounds to use for hashing
+          const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+          // Assuming you have a Mongoose User model with 'username' and 'hashedPassword' fields
+          const user = new User({
+            email:data.email,
+            username: data.username,
+            password: hashedPassword,
+            std:data.std,
+            div:data.div,
+            school:data.school
+          });
+
+          await user.save();
+          console.log(user)
+        }
+
+        fs.unlinkSync(req.file.path); // Remove the uploaded CSV file
+
+        res.status(200).json({ message: 'Data uploaded successfully!' });
+      });
+  } catch (error) {
+    res.status(500).json({ error: 'Something went wrong!' });
+  }
+});
 
 app.listen(PORT, (req, res) => {
   console.log(` Started at PORT ${PORT}`);

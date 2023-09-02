@@ -1,13 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+// import { NavLink } from 'react-router-dom'
 import "./masterDashboard.css"
 
 function MasterDashboard() {
-  const [userdata,setUserdata]=useState([])
+   
+  const [userdata, setUserdata] = useState([])
+  // const [isOpen, setIsOpen] = useState(false);
+  const sidePanelRef = useRef(null);
 
-useEffect(()=>{
-  getuserData()
-},[])
+  // Close the panel if clicked outside
+  const handleClickOutside = (event) => {
+    if (sidePanelRef.current && !sidePanelRef.current.contains(event.target)) {
+    
+    }
+  };
+
+  
+
+  useEffect(() => {
+    getuserData()
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+
+  }, [])
 
 
   const getuserData = async () => {
@@ -41,39 +58,46 @@ useEffect(()=>{
         .catch(err => console.error(err.message));
     }
   };
+
+
+
+
   
-
-
 
 
   return (<>
-    
-   <div>
-    <NavLink to="/master/dash-board"><button >schools</button></NavLink>
-    <NavLink to="/master/All-users"><button >All users</button></NavLink>
-    <NavLink to="/master/register"> <button >Register user</button></NavLink>
-   </div>
-   <table style={{width:"100%",textAlign:"center"}}>
-      <thead>
-        <tr>
-          <th>School</th>
-          <th>Number of Users</th>
-          <th>Remove </th>
-        </tr>
-      </thead>
-      <tbody>
-        {userdata.map(({ school, count }) => (
-          <tr key={school}>
-            <td>{school}</td>
-            <td>{count}</td>
-            <td><button onClick={() => handleRemoveClick(school)}>Remove</button></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  
+
+
+     
+    <div className="container">
+      <div className="content-wrapper">
+        <table style={{ width: "100%", textAlign: "center"}}>
+          <thead>
+            <tr>
+              <th>School</th>
+              <th>Number of Users</th>
+              <th>Remove </th>
+            </tr>
+          </thead>
+          <tbody>
+            {userdata.map(({ school, count }) => (
+              <tr key={school}>
+                <td>{school}</td>
+                <td>{count}</td>
+                <td><button onClick={() => handleRemoveClick(school)}>Remove</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+       
+    </div>
+     
+
+
+
   </>
-   
+
   )
 }
 

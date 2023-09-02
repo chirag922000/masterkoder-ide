@@ -1,0 +1,43 @@
+.container-sidebar{
+    display: flex;
+}
+.sidebar{
+    color: bisque;
+    background: black;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 10px;
+}
+.dashboeard-nav-links{
+    display: flex;
+    justify-content: center;
+    
+}
+ .toggler-nav{
+    display: none;
+ }
+.link-sidebar{
+    margin: 0px 10px;
+    color: antiquewhite;
+    text-decoration: none;
+}
+.link-sidebar:hover{
+    color: rgb(224, 90, 23);
+}
+.active{
+    color: rgb(224, 90, 23);
+}
+.logout-nav{
+    color: antiquewhite;
+    text-decoration: none;
+}
+@media (max-width: 768px) {
+    .link-sidebar{
+        display: none;
+    }
+    .toggler-nav{
+        display: flex;
+     }
+}

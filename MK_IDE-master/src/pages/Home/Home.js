@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from 'react-router-dom';
+ 
 import useStorage from "../LocalStorage"
 import "./home.css";
 import proj_img from "./coding.avif"
@@ -11,7 +11,7 @@ function Fiddles() {
   const[projectname,setProjectName]=useStorage("projectName","")
   const [projects, setProjects] = useState([]);
   const [allprojects,setAllProjects]=useState([])
-  //  const navigate=useNavigate()
+ 
   useEffect(() => { 
     getProducts();
     getAllProjects()
@@ -108,7 +108,7 @@ function Fiddles() {
   
   return (
     <>
-    {/* <h4 style={{marginLeft:"5px"}}>My Projects</h4> */}
+    <h2 style={{textAlign:"center",margin:"5px" }}>My Projects</h2>
     {
       
       <div class="card-container">
@@ -121,7 +121,7 @@ function Fiddles() {
          
         <button class="button-30" onClick={() => deleteProject(project._id ,project.name)} key={`delete-project-${index}`}>Delete</button>
         
-        <p >Date: 7-31-23</p>
+        <p >{project.time}</p>
       </div> ))}
          
       </div>
@@ -129,7 +129,7 @@ function Fiddles() {
        
 
       
-       {/* <h1 style={{textAlign:"center",margin:"5px"}}>All Projects</h1>
+       <h2 style={{textAlign:"center",margin:"5px", marginTop:"20px"}}>All Projects</h2>
       {
       
       <div class="card-container">
@@ -146,7 +146,7 @@ function Fiddles() {
       </div> ))}
          
       </div>
-    } */}
+    }
     </>
   );
 }

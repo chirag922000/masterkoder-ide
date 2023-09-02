@@ -57,11 +57,7 @@ const UserTable = () => {
 
   return (
     <div>
-        <div>
-    <NavLink to="/master/dash-board"><button >schools</button></NavLink>
-    <NavLink to="/master/All-users"><button >All users</button></NavLink>
-    <NavLink to="/master/register"> <button >Register user</button></NavLink>
-   </div>
+         
       <input
       style={{width:"100%",border:"2px blue solid",margin:"8px" }}
         type="text"

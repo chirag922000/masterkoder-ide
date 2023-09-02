@@ -3,7 +3,8 @@ const projectSchema =  mongoose.Schema({
     name: { type: String, required: true },
     html: { type: String },
     css: { type: String },
-    js: { type: String }
+    js: { type: String },
+     
   });
 
 
@@ -27,7 +28,9 @@ const userSchema = mongoose.Schema({
     std:{
         type:String,
     },
-
+    div:{
+        type:String
+    },
     createdAt:{
         type:Date,
         default:Date.now()

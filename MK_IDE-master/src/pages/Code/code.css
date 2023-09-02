@@ -3,15 +3,20 @@
   }
   
   .editor-container{
+    
    display: flex;
       flex-direction: wrap;
       gap: 10px;
     
       
+      
     }
+   
     .editor{
-     
+      
+      /* display: flex; */
       display: flex;
+      
       gap: .5rem;
        
     }

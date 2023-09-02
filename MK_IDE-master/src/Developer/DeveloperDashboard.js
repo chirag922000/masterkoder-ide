@@ -1,12 +1,20 @@
 import React,{ useState, useEffect } from 'react'
-import "../pages/home.css"
+ 
+import proj_img from "../pages/Home/coding.avif"
+import useStorage from "../pages/LocalStorage"
 
 function AdminDashboard() {
+  const [htmlCode, setHtmlCode] = useStorage("htmlCode","");
+  const [cssCode, setCssCode] = useStorage("cssCode","");
+  const [jsCode, setJsCode] = useStorage("jsCode","");
+  const[projectname,setProjectName]=useStorage("projectName","")
   const [projects, setProjects] = useState([]);
+  const [allprojects,setAllProjects]=useState([])
 
-  useEffect(() => {
+  useEffect(() => { 
     getProducts();
-    }, []);
+    
+  }, []);
 
     
   const getProducts = async () => {
@@ -56,25 +64,35 @@ function AdminDashboard() {
     }
   };
 
+  const get_Project_data=(project)=>{
+    setHtmlCode( project.html );
+    setCssCode( project.css);
+    setJsCode( project.js );
+    setProjectName(project.name)
+     
+  }
+
   return (
     <>
-      {
+       
+
+{
+      
+      <div class="card-container">
         
-        <div className="row">
-          <h1>Developer's project</h1>
-          {projects.map((project, index) => (
-            <div className="column" key={`all-project-${index}`}>
-              <div className="card">
-                <h3>{project.name}</h3>
-               <a href={`home/${project._id}`} key={`start-coding-all-${index}`}><p>Start Coding</p></a> 
-                <button onClick={() => deleteProject(project._id)} key={`delete-project-${index}`}><p>Delete</p></button>
-                
-              </div>
-            </div>
-           
-          ))}
-        </div>
-      }
+        {projects.map((project, index) => (
+        <div class="card-home " key={`all-project-${index}`}>
+        <img src={proj_img} alt="I 1" loading="lazy"/>
+        <h2>{project.name}</h2>
+        <a href={`code-dev/${project._id}`} key={`start-coding-all-${index}`}><button class="button-30" onClick={() => get_Project_data(project)}>Start Coding</button></a>
+         
+        <button class="button-30" onClick={() => deleteProject(project._id ,project.name)} key={`delete-project-${index}`}>Delete</button>
+        
+        <p >{project.time}</p>
+      </div> ))}
+         
+      </div>
+    }
     </>
   )
 }
